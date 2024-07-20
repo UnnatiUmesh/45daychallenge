@@ -1,0 +1,44 @@
+class Solution {
+public:
+    bool solve(vector<vector<char>>& board,int i,int j,string word,int ws,vector<vector<int>>&vis)
+    {
+        int n=board.size();
+        int m=board[0].size();
+        
+        if(ws==word.size())
+            return true;
+        
+        if(i<0||i>=n||j<0||j>=m||vis[i][j]||word[ws]!=board[i][j])
+            return false;
+        
+        
+        vis[i][j]=1;
+      int ans= solve(board,i+1,j,word,ws+1,vis)||
+              solve(board,i-1,j,word,ws+1,vis)||
+              solve(board,i,j+1,word,ws+1,vis)||
+              solve(board,i,j-1,word,ws+1,vis);
+        
+        vis[i][j]=0;
+        return ans;
+    }
+    bool exist(vector<vector<char>>& board, string word) {
+         int n=board.size();
+        int m=board[0].size();
+        
+        
+        
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<m;j++)
+            {
+                vector<vector<int>> vis(n,vector<int>(m,0));
+                if(board[i][j]==word[0])
+                {
+                    if(solve(board,i,j,word,0,vis))
+                        return true;
+                }
+            }
+        }
+        return false;
+    }
+};
