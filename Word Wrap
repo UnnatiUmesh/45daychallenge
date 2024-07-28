@@ -1,0 +1,35 @@
+class Solution {
+public:
+int solve(vector<int> nums,int k,int i,int space,vector<vector<int>> &dp)
+{
+    int n=nums.size();
+    
+    if(i==n)
+    return 0;
+    
+    if(dp[i][space]!=-1)
+    return dp[i][space];
+    
+    int take=INT_MAX;
+    
+    //same line if space are less than k
+    int newspace=space+1+nums[i];
+    
+    if(newspace<=k)
+    take=solve(nums,k,i+1,newspace,dp);
+    
+   //newline
+    int notake=(k-space)*(k-space)+solve(nums,k,i+1,nums[i],dp);
+    
+    return dp[i][space]=min(take,notake);
+    
+}
+    int solveWordWrap(vector<int>nums, int k) 
+    { 
+        // Code here
+         int n=nums.size();
+        vector<vector<int>> dp(n+2,vector<int>(2000,-1));
+        return solve(nums,k,1,nums[0],dp);
+    } 
+    
+};
