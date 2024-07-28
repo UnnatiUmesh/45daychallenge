@@ -1,0 +1,49 @@
+class Solution {
+public:
+    int calculate(string s) {
+        stack<int> nums;
+        char preop='+';
+        int num=0;
+        s+='+';
+        int ans=0;
+        
+        for(char c:s)
+        {
+         if(isdigit(c))
+             num=num*10+(c-'0');
+        else if(c==' ')
+                continue;
+        else
+        {
+            if(preop=='+')
+                nums.push(num);
+            
+            else if(preop=='-')
+                nums.push(-num);
+            
+            else if(preop=='*')
+            {
+                int top=nums.top();
+                nums.pop();
+                nums.push(top*num);
+            }
+            
+            else if(preop=='/')
+            {
+                int top=nums.top();
+                nums.pop();
+                nums.push(top/num);
+            }
+            preop=c;
+            num=0;
+            
+        }
+    }
+        while(!nums.empty())
+        {
+            ans+=nums.top();
+            nums.pop();
+        }
+        return ans;
+    }
+};
