@@ -1,0 +1,59 @@
+class Solution {
+public:
+    bool isNumber(string s) {
+        bool digit=false;
+        bool eseen=false,dotseen=false;
+        
+        int count=0;
+        int n=s.size();
+        
+        for(int i=0;i<n;i++)
+        {
+            //digits
+            if(isdigit(s[i]))
+                digit=true;
+            
+            //plus and minus : three scenario 
+            //6- , 6+0 , cannot be greater than 2
+            
+           else if(s[i]=='+'||s[i]=='-')
+            {
+                if(count==2)
+                    return false;
+                if(i>0 && (s[i-1]!='e' && s[i-1]!='E'))
+                    return false;
+                if(i==n-1)
+                    return false;
+                count++;
+            }
+            
+            //dot - three cases
+            //e. , .7. , .
+            
+           else if(s[i]=='.')
+            {
+               if(eseen||dotseen)
+                   return false;
+               
+                if(i==n-1&&!digit)
+                    return false;
+                
+                dotseen=true;
+            }
+            
+            //e - three cases
+            // ee, e45 , 45e
+            
+            else if(s[i]=='e'||s[i]=='E')
+            {
+                if(eseen||!digit||i==n-1)
+                    return false;
+                eseen=true;
+            }
+            else
+                return false;
+            
+        }
+        return true;
+    }
+};
