@@ -1,0 +1,46 @@
+class Solution {
+  public:
+    // Function to find the number of islands.
+    
+    vector<int> delrow={-1,-1,0,1,1,1,0,-1};
+    vector<int> delcol={0,1,1,1,0,-1,-1,-1};
+    
+    void solve(vector<vector<char>>& grid,vector<vector<int>>& vis,int i,int j)
+    {
+        int n=grid.size(),m=grid[0].size();
+        
+        if(i>=n||i<0||j>=m||j<0||vis[i][j]||grid[i][j]=='0')
+        return ;
+        
+        vis[i][j]=1;
+        for(int k=0;k<8;k++)
+        {
+            int r=i+delrow[k];
+            int c=j+delcol[k];
+            
+            solve(grid,vis,r,c);
+        }
+    }
+    
+    
+    int numIslands(vector<vector<char>>& grid) {
+        // Code here
+        int n=grid.size(),m=grid[0].size();
+        int count=0;
+        
+        vector<vector<int>> vis(n,vector<int>(m,0));
+        
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<m;j++)
+            {
+                if(grid[i][j]=='1' && !vis[i][j])
+                {
+                    solve(grid,vis,i,j);
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+};
