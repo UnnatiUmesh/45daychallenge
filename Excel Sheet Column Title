@@ -1,0 +1,30 @@
+class Solution {
+public:
+    string convertToTitle(int columnNumber) {
+     
+        string ans="";
+        
+        //take the rem each time :
+        //if rem is 0 the it is z add as it is and reduce colnum by 1
+        //else add rem-1 to the answer
+        while(columnNumber>0)
+        {
+            int add=columnNumber%26;
+            
+            if(add==0)
+            {
+                ans='Z'+ans;
+                columnNumber=columnNumber/26-1;
+            }
+            else
+            {
+                char ch='A'+add-1;
+                ans=ch+ans;
+                columnNumber=columnNumber/26;
+            }
+
+        }
+        
+        return ans;
+    }
+};
