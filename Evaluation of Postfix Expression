@@ -1,0 +1,44 @@
+
+    int solve(char ch,stack<int> &st)
+    {
+        int n1=st.top();
+        st.pop();
+        int n2=st.top();
+        st.pop();
+        
+        switch(ch)
+        {
+            case '+':return n2+n1;
+            break;
+            case '-':return n2-n1;
+            break;
+            
+            case '*':return n2*n1;
+            break;
+            case '/':
+            if(n1==0)
+            return 0;
+            else
+            return n2/n1;
+        }
+        return -1;
+    }
+    int evaluatePostfix(string S)
+    {
+        // Your code here
+        stack<int> st;
+        
+        for(char ch:S)
+        {
+            if(ch=='+'||ch=='-'||ch=='*'||ch=='/')
+            {
+                int ans=solve(ch,st);
+                st.push(ans);
+            }
+            else
+            st.push(ch-'0');
+        }
+        return st.top();
+    }
+};
+
