@@ -1,0 +1,47 @@
+class Solution {
+public:
+    
+    int sumSubarrayMins(vector<int>& arr) {
+        int n=arr.size();
+        int left[n],right[n];
+        long long int sum=0;
+        stack<int> s1,s2;
+        s1.push(0);
+        left[0]=1;
+        long long int MOD=1000000007;
+        for(int i=0;i<n;i++)
+        {
+            while(!s1.empty()&&arr[s1.top()]>=arr[i])
+                s1.pop();
+            
+            if(s1.empty())
+                left[i]=i+1;
+            
+            else
+                left[i]=i-s1.top();
+            s1.push(i);
+        }
+       
+        s2.push(n-1);
+        right[n-1]=1;
+         for(int i=n-2;i>=0;i--)
+        {
+            while(!s2.empty()&&arr[s2.top()]>arr[i])
+                s2.pop();
+            
+            if(s2.empty())
+                right[i]=n-i;
+            
+            else
+                right[i]=s2.top()-i;
+            s2.push(i);
+        }
+        
+        for(int i=0;i<n;i++)
+        {
+            sum = (sum + static_cast<long long>(left[i]) * right[i] * arr[i] % MOD) % MOD;
+        }
+        return sum%1000000007;
+        
+    }
+};
