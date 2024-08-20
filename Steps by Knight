@@ -1,0 +1,69 @@
+//{ Driver Code Starts
+#include<bits/stdc++.h>
+using namespace std;
+
+// } Driver Code Ends
+class Solution 
+{
+    public:
+    //Function to find out minimum steps Knight needs to reach target position.
+    bool isvalid(int i,int j,vector<vector<int>> &vis,int n)
+    {
+        return i>=0 && i<n && j>=0 && j<n && vis[i][j]==INT_MAX;
+    }
+	int minStepToReachTarget(vector<int>&KnightPos,vector<int>&TargetPos,int N)
+	{
+	    // Code here
+	    
+	    queue<pair<int,int>> q;
+	    vector<vector<int>> vis(N,vector<int>(N,INT_MAX));
+	   
+	    vis[TargetPos[0]-1][TargetPos[1]-1]=0;
+	    
+	    q.push({TargetPos[0]-1,TargetPos[1]-1});
+	    
+	    int delrow[]={1,-1,1,-1,2,-2,2,-2};
+	    int delcol[]={2,-2,-2,2,1,-1,-1,1};
+	   
+	    while(!q.empty())
+	    {
+	        int x=q.front().first;
+	        int y=q.front().second;
+	        
+	        q.pop();
+	        
+	        for(int i=0;i<8;i++)
+	        {
+	            int r=x+delrow[i];
+	            int c=y+delcol[i];
+	            
+	            if(isvalid(r,c,vis,N))
+	            {
+	                vis[r][c]=vis[x][y]+1;
+	                q.push({r,c});
+	            }
+	        }
+	    }
+	    
+	    return (vis[KnightPos[0]-1][KnightPos[1]-1]==INT_MAX)?-1:vis[KnightPos[0]-1][KnightPos[1]-1];
+	}
+};
+
+//{ Driver Code Starts.
+int main(){
+	int tc;
+	cin >> tc;
+	while(tc--){
+		vector<int>KnightPos(2);
+		vector<int>TargetPos(2);
+		int N;
+		cin >> N;
+		cin >> KnightPos[0] >> KnightPos[1];
+		cin >> TargetPos[0] >> TargetPos[1];
+		Solution obj;
+		int ans = obj.minStepToReachTarget(KnightPos, TargetPos, N);
+		cout << ans <<"\n";
+	}
+	return 0;
+}
+// } Driver Code Ends
