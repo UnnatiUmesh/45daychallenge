@@ -1,0 +1,75 @@
+class Solution {
+public:
+    queue<pair<int,int>> q;
+    vector<int> delrow={1,-1,0,0};
+    vector<int> delcol={0,0,-1,1};
+    
+    void dfs(int i,int j,vector<vector<int>>& grid)
+    {
+        int n=grid.size(),m=grid[0].size();
+        
+        grid[i][j]=2;
+        q.push({i,j});
+        
+        for(int k=0;k<4;k++)
+        {
+            int newx=i+delrow[k];
+            int newy=j+delcol[k];
+            
+            if(newx>=0 && newx<n && newy>=0 && newy<m && grid[newx][newy]==1)
+            dfs(newx,newy,grid);
+            
+        }
+    }
+    int shortestBridge(vector<vector<int>>& grid) {
+        
+        int n=grid.size(),m=grid[0].size();
+        int newx=-1,newy=-1;
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<m;j++)
+            {
+                if(grid[i][j]==1)
+                {
+                    newx=i;
+                    newy=j;
+                    break;
+                }
+            }
+        }
+       
+        dfs(newx,newy,grid);
+        int dis=0;
+        while(!q.empty())
+        {
+            int size=q.size();
+            
+            while(size--)
+            {
+            int i=q.front().first;
+            int j=q.front().second;
+            
+             q.pop();
+            
+                for(int k=0;k<4;k++)
+                {
+                    int nx=i+delrow[k];
+                    int ny=j+delcol[k];
+                    
+                    if(nx>=0 && nx<n && ny>=0 && ny<m)
+                    {
+                        if(grid[nx][ny]==1)
+                            return dis;
+                        if(grid[nx][ny]==0)
+                        {
+                            grid[nx][ny]=-1;
+                            q.push({nx,ny});
+                        }
+                    }
+                }
+            }
+            dis++;
+        }
+        return dis;
+    }
+};
